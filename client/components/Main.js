@@ -1,14 +1,14 @@
 import React from 'react';
-import {HashRouter as Router, Switch, Route} from 'react-router-dom'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import StudentList from './StudentList.js';
 import SingleStudent from './SingleStudent';
 
 export default class Main extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
   }
 
-  render() {
+  render () {
     return (
       <Router>
         <div>
@@ -16,8 +16,8 @@ export default class Main extends React.Component {
         </div>
 
         <Switch>
-          <Route exact path="/" component={StudentList} />
-          <Route path="/students/:id" component={SingleStudent} />
+          <Route exact path='/' component={StudentList} />
+          <Route path='/students/:id' component={SingleStudent} />
         </Switch>
       </Router>
     );

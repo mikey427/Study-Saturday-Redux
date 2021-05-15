@@ -1,45 +1,49 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { fetchStudent } from '../redux/store';
 
-const avgGrade = (tests) => {
+const avgGrade = tests => {
   return Math.round(
-    tests.map((test) => test.grade).reduce((x, y) => x + y) / tests.length
+    tests.map(test => test.grade).reduce((x, y) => x + y) / tests.length
   );
 };
 
 const DUMMY_DATA = {
   id: 1,
-  fullName: "Student McDummydata",
-  firstName: "Student",
-  lastName: "McDummydata",
-  email: "sm@dummydata.com",
+  fullName: 'Student McDummydata',
+  firstName: 'Student',
+  lastName: 'McDummydata',
+  email: 'sm@dummydata.com',
   tests: [
     {
       id: 1,
-      subject: "Computer Science",
-      grade: 45,
+      subject: 'Computer Science',
+      grade: 45
     },
     {
       id: 6,
-      subject: "Art",
-      grade: 60,
+      subject: 'Art',
+      grade: 60
     },
     {
       id: 12,
-      subject: "ullam",
-      grade: 45,
-    },
-  ],
+      subject: 'ullam',
+      grade: 45
+    }
+  ]
 };
 
-class SingleStudent extends React.Component {
-  constructor(props) {
+export class SingleStudent extends React.Component {
+  constructor (props) {
     super(props);
   }
+  componentDidMount () {
+    this.props.loadStudent(this.props.match.params.id);
+  }
 
-  render() {
-    const student = DUMMY_DATA;
-    const hasTests = student.tests.length;
-
+  render () {
+    const student = this.props.student || {};
+    const hasTests = student.tests;
     return (
       <div>
         <h3>Detail: {student.fullName}</h3>
@@ -55,7 +59,7 @@ class SingleStudent extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {student.tests.map((test) => {
+                  {student.tests.map(test => {
                     return (
                       <tr key={test.id}>
                         <td>{test.subject}</td>
@@ -73,6 +77,16 @@ class SingleStudent extends React.Component {
       </div>
     );
   }
-};
+}
 
-export default SingleStudent;
+const mapStateToProps = state => ({
+  student: state.student
+});
+
+const mapDispatchToProps = dispatch => ({
+  loadStudent: id => dispatch(fetchStudent(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleStudent);
+
+// export default SingleStudent;
